@@ -1,6 +1,6 @@
-local parsers = require("function-parsers")
+local parsers = require("parsers.function-parsers")
 
-local function orderClassFunctionsByCallOrder(path)
+local function lineByLineReader(path)
     local file = io.open(path, "r")
     if not file then
         return nil
@@ -67,15 +67,3 @@ local function reArrangeWithSortedFunctionBodies(file_lines, function_bodies, or
     end
     return result
 end
-
-local function writeNewOrderedFile(path, target)
-    local result = reArrangeWithSortedFunctionBodies(orderClassFunctionsByCallOrder(path))
-    local file = io.open(target, "w")
-    if file == nil then
-        return nil
-    end
-    file:write(result)
-    file:close()
-end
-
-writeNewOrderedFile("RebuildExercise2.php", "RebuildOrdered2.php")
